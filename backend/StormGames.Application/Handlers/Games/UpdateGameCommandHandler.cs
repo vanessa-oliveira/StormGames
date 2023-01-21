@@ -8,23 +8,23 @@ namespace StormGames.Application.Handlers.Games;
 public class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand, Game>
 {
     private readonly IGameRepository _gameRepository;
-    private readonly ICategoryRepository _categoryRepository;
+    private readonly IGenreRepository _genreRepository;
 
-    public UpdateGameCommandHandler(IGameRepository gameRepository, ICategoryRepository categoryRepository)
+    public UpdateGameCommandHandler(IGameRepository gameRepository, IGenreRepository genreRepository)
     {
         _gameRepository = gameRepository;
-        _categoryRepository = categoryRepository;
+        _genreRepository = genreRepository;
     }
 
     public async Task<Game> Handle(UpdateGameCommand command, CancellationToken cancellationToken)
     {
-        var categories = new List<Category>();
-        if (command.CategoryIds != null)
+        var genres = new List<Genre>();
+        if (command.GenreIds != null)
         {
-            foreach (var categoryId in command.CategoryIds)
+            foreach (var genreId in command.GenreIds)
             {
-                var category = await _categoryRepository.GetCategoryById(categoryId);
-                categories.Add(category);
+                var genre = await _genreRepository.GetGenreById(genreId);
+                genres.Add(genre);
             }
         }
         var game = new Game
@@ -34,7 +34,7 @@ public class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand, Game>
             ReleaseDate = command.ReleaseDate,
             Developer = command.Developer,
             Publisher = command.Publisher,
-            Categories = categories
+            Genres = genres
         };
         _gameRepository.Update(game);
         return game;

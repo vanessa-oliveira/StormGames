@@ -34,7 +34,7 @@ public class GameRepository : IGameRepository
 
     public async Task<Game> GetGameById(int id)
     {
-        var game = await _datacontext.Games.FirstOrDefaultAsync(x => x.Id == id);
+        var game = await _datacontext.Games.Include(g => g.Genres).FirstOrDefaultAsync(x => x.Id == id);
         if (game != null)
         {
             return game;
@@ -45,7 +45,7 @@ public class GameRepository : IGameRepository
 
     public async Task<IList<Game>> GetAllGames()
     {
-        var games = await _datacontext.Games.ToListAsync();
+        var games = await _datacontext.Games.Include(g => g.Genres).ToListAsync();
         return games;
     }
 

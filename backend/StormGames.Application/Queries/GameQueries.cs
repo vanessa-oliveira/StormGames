@@ -16,6 +16,11 @@ public class GameQueries : IGameQueries
     public async Task<GameModel> GetGameById(int id)
     {
         var game = await _gameRepository.GetGameById(id);
+        var genres = new List<GenreModel>();
+        if (game.Genres != null)
+        {
+            genres.AddRange(game.Genres.Select(genre => new GenreModel {Name = genre.Name}));
+        }
         var gameOutput = new GameModel
         {
             Title = game.Title,
@@ -23,17 +28,9 @@ public class GameQueries : IGameQueries
             ReleaseDate = game.ReleaseDate,
             Developer = game.Developer,
             Publisher = game.Publisher,
+            Genres = genres,
         };
-        if (game.Categories != null)
-        {
-            foreach (var category in game.Categories)
-            {
-                gameOutput.Categories.Add(new CategoryModel
-                {
-                    Name = category.Name
-                });
-            }
-        }
+        
         return gameOutput;
     }
 
@@ -41,17 +38,17 @@ public class GameQueries : IGameQueries
     {
         var games = await _gameRepository.GetAllGames();
         var gamesOutput = new List<GameModel>();
-        var categoriesOutput = new List<CategoryModel>();
+        var genresOutput = new List<GenreModel>();
         
         foreach (var game in games)
         {
-            if (game.Categories != null)
+            if (game.Genres != null)
             {
-                foreach (var category in game.Categories)
+                foreach (var genre in game.Genres)
                 {
-                    categoriesOutput.Add(new CategoryModel
+                    genresOutput.Add(new GenreModel
                     {
-                        Name = category.Name
+                        Name = genre.Name
                     });
                 }
             }
@@ -62,7 +59,7 @@ public class GameQueries : IGameQueries
                 ReleaseDate = game.ReleaseDate,
                 Developer = game.Developer,
                 Publisher = game.Publisher,
-                Categories = categoriesOutput
+                Genres = genresOutput
             });
         }
 

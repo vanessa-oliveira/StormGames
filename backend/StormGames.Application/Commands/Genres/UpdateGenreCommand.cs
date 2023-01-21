@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using StormGames.Domain.Entities;
 
-namespace StormGames.Application.Commands.Categories;
+namespace StormGames.Application.Commands.Genres;
 
-public class UpdateCategoryCommand : IRequest<Category>
+public class UpdateGenreCommand : IRequest<Genre>
 {
     public int Id { get; set; }
     public string Name { get; set; }

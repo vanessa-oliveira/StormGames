@@ -10,5 +10,5 @@ public class GameModel
     public DateTime ReleaseDate { get; set; }
     public string Developer { get; set; }
     public string Publisher { get; set; }
-    public IList<CategoryModel>? Categories { get; set; }
+    public IList<GenreModel>? Genres { get; set; }
 }
