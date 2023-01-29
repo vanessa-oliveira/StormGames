@@ -34,9 +34,13 @@ public class GenreController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("DeleteGenre")]
-    public async Task<IActionResult> DeleteGenre(DeleteGenreCommand cmd)
+    [HttpDelete("DeleteGenre/{id:int}")]
+    public async Task<IActionResult> DeleteGenre(int id)
     {
+        var cmd = new DeleteGenreCommand
+        {
+            Id = id
+        };
         await _mediator.Send(cmd);
         return NoContent();
     }

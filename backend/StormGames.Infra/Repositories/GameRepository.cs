@@ -7,34 +7,34 @@ namespace StormGames.Infra.Repositories;
 
 public class GameRepository : IGameRepository
 {
-    private readonly DataContext _datacontext;
+    private readonly DataContext _dataContext;
 
-    public GameRepository(DataContext datacontext)
+    public GameRepository(DataContext dataContext)
     {
-        _datacontext = datacontext;
+        _dataContext = dataContext;
     }
     public async Task<Game> Insert(Game entity)
     {
-        var game = await _datacontext.AddAsync(entity);
-        Save();
+        var game = await _dataContext.AddAsync(entity);
+        await SaveChangesAsync();
         return game.Entity;
     }
 
-    public void Update(Game entity)
+    public async Task<bool> Update(Game entity)
     {
-        _datacontext.Update(entity);
-        Save();
+        _dataContext.Update(entity);
+        return await SaveChangesAsync();
     }
 
-    public void Delete(Game entity)
+    public async Task<bool> Delete(Game entity)
     {
-        _datacontext.Remove(entity);
-        Save();
+        _dataContext.Remove(entity);
+        return await SaveChangesAsync();
     }
 
     public async Task<Game> GetGameById(int id)
     {
-        var game = await _datacontext.Games.Include(g => g.Genres).FirstOrDefaultAsync(x => x.Id == id);
+        var game = await _dataContext.Games.Include(g => g.Genres).FirstOrDefaultAsync(x => x.Id == id);
         if (game != null)
         {
             return game;
@@ -45,12 +45,12 @@ public class GameRepository : IGameRepository
 
     public async Task<IList<Game>> GetAllGames()
     {
-        var games = await _datacontext.Games.Include(g => g.Genres).ToListAsync();
+        var games = await _dataContext.Games.Include(g => g.Genres).ToListAsync();
         return games;
     }
 
-    private void Save()
+    private async Task<bool> SaveChangesAsync()
     {
-        _datacontext.SaveChangesAsync();
+        return (await _dataContext.SaveChangesAsync()) > 0;
     }
 }

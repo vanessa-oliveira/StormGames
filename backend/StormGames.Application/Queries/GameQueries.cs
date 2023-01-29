@@ -38,12 +38,12 @@ public class GameQueries : IGameQueries
     {
         var games = await _gameRepository.GetAllGames();
         var gamesOutput = new List<GameModel>();
-        var genresOutput = new List<GenreModel>();
         
         foreach (var game in games)
         {
             if (game.Genres != null)
             {
+                var genresOutput = new List<GenreModel>();
                 foreach (var genre in game.Genres)
                 {
                     genresOutput.Add(new GenreModel
@@ -51,16 +51,18 @@ public class GameQueries : IGameQueries
                         Name = genre.Name
                     });
                 }
+                gamesOutput.Add(new GameModel
+                {
+                    Id = game.Id,
+                    Title = game.Title,
+                    Description = game.Description,
+                    ReleaseDate = game.ReleaseDate,
+                    Developer = game.Developer,
+                    Publisher = game.Publisher,
+                    Genres = genresOutput
+                });
             }
-            gamesOutput.Add(new GameModel
-            {
-                Title = game.Title,
-                Description = game.Description,
-                ReleaseDate = game.ReleaseDate,
-                Developer = game.Developer,
-                Publisher = game.Publisher,
-                Genres = genresOutput
-            });
+            
         }
 
         return gamesOutput;

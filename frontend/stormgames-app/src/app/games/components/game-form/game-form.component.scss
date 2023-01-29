@@ -1,0 +1,25 @@
+form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    width: 400px;
+}
+.button-box {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+}
+.close-button {
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+.submit-button {
+    display: flex;
+    justify-content: flex-end;
+}
+

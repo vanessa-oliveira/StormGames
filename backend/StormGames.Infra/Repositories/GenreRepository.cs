@@ -17,20 +17,20 @@ public class GenreRepository: IGenreRepository
     public async Task<Genre> Insert(Genre entity)
     {
         var genre = await _dataContext.AddAsync(entity);
-        Save();
+        await SaveChangesAsync();
         return genre.Entity;
     }
 
-    public void Update(Genre entity)
+    public async Task<bool> Update(Genre entity)
     {
         _dataContext.Update(entity);
-        Save();
+        return await SaveChangesAsync();
     }
 
-    public void Delete(Genre entity)
+    public async Task<bool> Delete(Genre entity)
     {
         _dataContext.Remove(entity);
-        Save();
+        return await SaveChangesAsync();
     }
 
     public async Task<Genre> GetGenreById(int id)
@@ -52,8 +52,8 @@ public class GenreRepository: IGenreRepository
         return genres;
     }
     
-    private void Save()
+    private async Task<bool> SaveChangesAsync()
     {
-        _dataContext.SaveChangesAsync();
+        return (await _dataContext.SaveChangesAsync()) > 0;
     }
 }

@@ -18,25 +18,23 @@ public class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand, Game>
 
     public async Task<Game> Handle(UpdateGameCommand command, CancellationToken cancellationToken)
     {
+        var game = await _gameRepository.GetGameById(command.Id);
         var genres = new List<Genre>();
         if (command.GenreIds != null)
         {
             foreach (var genreId in command.GenreIds)
             {
-                var genre = await _genreRepository.GetGenreById(genreId);
-                genres.Add(genre);
+                var genreUpdate = await _genreRepository.GetGenreById(genreId);
+                genres.Add(genreUpdate);
             }
         }
-        var game = new Game
-        {
-            Title = command.Title,
-            Description = command.Description,
-            ReleaseDate = command.ReleaseDate,
-            Developer = command.Developer,
-            Publisher = command.Publisher,
-            Genres = genres
-        };
-        _gameRepository.Update(game);
+        game.Title = command.Title;
+        game.Description = command.Description;
+        game.ReleaseDate = command.ReleaseDate;
+        game.Developer = command.Developer;
+        game.Publisher = command.Publisher;
+        game.Genres = genres;
+        await _gameRepository.Update(game);
         return game;
     }
 }

@@ -34,9 +34,13 @@ public class GameController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("DeleteGame")]
-    public async Task<IActionResult> DeleteGame(DeleteGameCommand cmd)
+    [HttpDelete("DeleteGame/{id:int}")]
+    public async Task<IActionResult> DeleteGame(int id)
     {
+        var cmd = new DeleteGameCommand
+        {
+            Id = id
+        };
         await _mediator.Send(cmd);
         return NoContent();
     }

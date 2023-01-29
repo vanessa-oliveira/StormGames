@@ -18,7 +18,7 @@ public class UpdateGenreCommandHandler : IRequestHandler<UpdateGenreCommand, Gen
     {
         var genre = await _genreRepository.GetGenreById(command.Id);
         genre.UpdateGenre(command.Name);
-        _genreRepository.Update(genre);
+        await _genreRepository.Update(genre);
         return genre;
     }
 }

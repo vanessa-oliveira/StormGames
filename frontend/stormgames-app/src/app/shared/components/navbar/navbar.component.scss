@@ -1,0 +1,23 @@
+mat-toolbar {
+    background-color: #12131A;
+    color: white;
+    border-bottom: 1px solid #44403c;
+
+    .logo {
+        cursor: pointer;
+        padding: 8px;
+    }
+}
+
+.links {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+
+    a {
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+    }
+}

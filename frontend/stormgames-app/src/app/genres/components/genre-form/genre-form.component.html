@@ -1,0 +1,32 @@
+<div class="form-box">
+    <div class="close-button-box">
+        <button class="close-button" (click)="onCancel()">
+            <mat-icon
+                aria-hidden="false"
+                aria-label="Example home icon"
+                fontIcon="close"
+            ></mat-icon>
+        </button>
+    </div>
+
+    <div class="form-content">
+        <div mat-dialog-content>
+            <form [formGroup]="genreForm">
+                <mat-form-field>
+                    <mat-label>Gênero</mat-label>
+                    <input matInput type="text" formControlName="name" />
+                </mat-form-field>
+            </form>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button
+            mat-button
+            mat-dialog-close
+            (click)="insertGenre()"
+            [disabled]="genreForm.get('name')?.hasError('required')"
+        >
+            OK
+        </button>
+    </div>
+</div>
