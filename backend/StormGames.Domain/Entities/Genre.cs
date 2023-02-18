@@ -1,8 +1,7 @@
 ﻿namespace StormGames.Domain.Entities;
 
-public class Genre
+public class Genre : Entity
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public IList<Game>? Games { get; set; }
 

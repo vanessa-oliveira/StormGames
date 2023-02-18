@@ -1,4 +1,4 @@
-﻿using StormGames.Application.Queries.Models;
+﻿using StormGames.Application.Models;
 using StormGames.Domain.Entities;
 using StormGames.Infra.Contracts;
 
@@ -13,7 +13,7 @@ public class GameQueries : IGameQueries
         _gameRepository = gameRepository;
     }
     
-    public async Task<GameModel> GetGameById(int id)
+    public async Task<GameModel> GetGameById(Guid id)
     {
         var game = await _gameRepository.GetGameById(id);
         var genres = new List<GenreModel>();

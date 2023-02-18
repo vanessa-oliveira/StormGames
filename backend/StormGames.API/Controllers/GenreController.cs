@@ -1,10 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StormGames.Application.Commands.Genres;
 using StormGames.Application.Queries;
 
 namespace StormGames.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class GenreController : ControllerBase
@@ -20,6 +23,8 @@ public class GenreController : ControllerBase
 
     #region Commands
     
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("CreateGenre")]
     public async Task<IActionResult> CreateGenre(CreateGenreCommand cmd)
     {
@@ -27,6 +32,8 @@ public class GenreController : ControllerBase
         return Ok();
     }
 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
     [HttpPut("UpdateGenre")]
     public async Task<IActionResult> UpdateGenre(UpdateGenreCommand cmd)
     {
@@ -34,8 +41,10 @@ public class GenreController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("DeleteGenre/{id:int}")]
-    public async Task<IActionResult> DeleteGenre(int id)
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
+    [HttpDelete("DeleteGenre/{id:Guid}")]
+    public async Task<IActionResult> DeleteGenre(Guid id)
     {
         var cmd = new DeleteGenreCommand
         {
@@ -49,13 +58,15 @@ public class GenreController : ControllerBase
     
     #region Queries
     
-    [HttpGet("GetById/{id}")]
-    public async Task<IActionResult> GetGenreById(int id)
+    [AllowAnonymous]
+    [HttpGet("GetById/{id:Guid}")]
+    public async Task<IActionResult> GetGenreById(Guid id)
     {
         var genre = await _genreQueries.GetGenreById(id);
         return Ok(genre);
     }
 
+    [AllowAnonymous]
     [HttpGet("ListAllGenres")]
     public async Task<IActionResult> ListAllGenres()
     {

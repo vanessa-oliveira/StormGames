@@ -1,10 +1,10 @@
 ﻿using StormGames.Domain.Entities;
 
-namespace StormGames.Application.Queries.Models;
+namespace StormGames.Application.Models;
 
 public class GameModel
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime ReleaseDate { get; set; }

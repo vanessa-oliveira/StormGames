@@ -1,4 +1,4 @@
-﻿using StormGames.Application.Queries.Models;
+﻿using StormGames.Application.Models;
 using StormGames.Infra.Contracts;
 
 namespace StormGames.Application.Queries;
@@ -12,7 +12,7 @@ public class GenreQueries : IGenreQueries
         _genreRepository = genreRepository;
     }
 
-    public async Task<GenreModel> GetGenreById(int id)
+    public async Task<GenreModel> GetGenreById(Guid id)
     {
         var genre = await _genreRepository.GetGenreById(id);
         var genreOutput = new GenreModel

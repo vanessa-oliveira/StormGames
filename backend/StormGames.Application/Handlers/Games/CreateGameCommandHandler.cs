@@ -32,6 +32,7 @@ public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, Game>
             Title = command.Title,
             Description = command.Description,
             ReleaseDate = command.ReleaseDate,
+            Price = command.Price,
             Developer = command.Developer,
             Publisher = command.Publisher,
             Genres = genres,

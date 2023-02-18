@@ -33,7 +33,7 @@ public class GenreRepository: IGenreRepository
         return await SaveChangesAsync();
     }
 
-    public async Task<Genre> GetGenreById(int id)
+    public async Task<Genre> GetGenreById(Guid id)
     {
         var genre = await _dataContext.Genres.FirstOrDefaultAsync(x => x.Id == id);
         if (genre != null)

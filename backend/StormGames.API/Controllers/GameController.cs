@@ -1,10 +1,13 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StormGames.Application.Commands.Games;
 using StormGames.Application.Queries;
 
 namespace StormGames.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class GameController : ControllerBase
@@ -20,6 +23,8 @@ public class GameController : ControllerBase
 
     #region Commands
     
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
     [HttpPost("InsertGame")]
     public async Task<IActionResult> InsertGame(CreateGameCommand cmd)
     {
@@ -27,6 +32,8 @@ public class GameController : ControllerBase
         return Ok();
     }
 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
     [HttpPut("UpdateGame")]
     public async Task<IActionResult> UpdateGame(UpdateGameCommand cmd)
     {
@@ -34,8 +41,10 @@ public class GameController : ControllerBase
         return Ok();
     }
 
-    [HttpDelete("DeleteGame/{id:int}")]
-    public async Task<IActionResult> DeleteGame(int id)
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "ADMIN")]
+    [HttpDelete("DeleteGame/{id:Guid}")]
+    public async Task<IActionResult> DeleteGame(Guid id)
     {
         var cmd = new DeleteGameCommand
         {
@@ -49,6 +58,7 @@ public class GameController : ControllerBase
     
     #region Queries
 
+    [AllowAnonymous]
     [HttpGet("ListAllGames")]
     public async Task<IActionResult> ListAllGames()
     {
@@ -56,8 +66,9 @@ public class GameController : ControllerBase
         return Ok(games);
     }
 
-    [HttpGet("GetById/{id}")]
-    public async Task<IActionResult> GetGameById(int id)
+    [AllowAnonymous]
+    [HttpGet("GetById/{id:Guid}")]
+    public async Task<IActionResult> GetGameById(Guid id)
     {
         var game = await _gameQueries.GetGameById(id);
         return Ok(game);

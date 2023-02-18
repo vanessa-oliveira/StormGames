@@ -5,5 +5,5 @@ namespace StormGames.Application.Commands.Genres;
 
 public class DeleteGenreCommand : IRequest<Genre>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }

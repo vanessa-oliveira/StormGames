@@ -31,6 +31,7 @@ public class UpdateGameCommandHandler : IRequestHandler<UpdateGameCommand, Game>
         game.Title = command.Title;
         game.Description = command.Description;
         game.ReleaseDate = command.ReleaseDate;
+        game.Price = command.Price;
         game.Developer = command.Developer;
         game.Publisher = command.Publisher;
         game.Genres = genres;

@@ -5,11 +5,12 @@ namespace StormGames.Application.Commands.Games;
 
 public class UpdateGameCommand : IRequest<Game>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public DateTime ReleaseDate { get; set; }
+    public double Price { get; set; }
     public string Developer { get; set; }
     public string Publisher { get; set; }
-    public IList<int>? GenreIds { get; set; }
+    public IList<Guid>? GenreIds { get; set; }
 }

@@ -32,7 +32,7 @@ public class GameRepository : IGameRepository
         return await SaveChangesAsync();
     }
 
-    public async Task<Game> GetGameById(int id)
+    public async Task<Game> GetGameById(Guid id)
     {
         var game = await _dataContext.Games.Include(g => g.Genres).FirstOrDefaultAsync(x => x.Id == id);
         if (game != null)
